@@ -3,7 +3,6 @@
 //
 #ifndef FINALPROJECT_KDTREE_H
 #define FINALPROJECT_KDTREE_H
-#endif //FINALPROJECT_KDTREE_H
 
 #include "Things.h"
 
@@ -33,35 +32,38 @@ public:
         Node *backupPtr = nullptr;
         bool addToRight = false;
         while (ptr != nullptr) {
-            if (ptr->branch->point.equals(branch))
+            if (ptr->branch->point.equals(branch->point))
                 return false;
             if (isXBase) {
                 if (ptr->branch->point.x <= branch->point.x) {
                     // should go right
-                    ptr = ptr->right;
                     backupPtr = ptr;
+                    ptr = ptr->right;
                     addToRight = true;
                 } else {
                     // should go left
-                    ptr = ptr->left;
                     backupPtr = ptr;
+                    ptr = ptr->left;
                     addToRight = false;
                 }
             } else {
                 if (ptr->branch->point.y <= branch->point.y) {
                     // should go right
-                    ptr = ptr->right;
                     backupPtr = ptr;
+                    ptr = ptr->right;
                     addToRight = true;
                 } else {
                     // should go left
-                    ptr = ptr->left;
                     backupPtr = ptr;
+                    ptr = ptr->left;
                     addToRight = false;
                 }
             }
             isXBase = !isXBase;
         }
-        addToRight ? backupPtr->right = branch : backupPtr->left = branch;
+        addToRight ? backupPtr->right = new Node(branch) : backupPtr->left = new Node(branch);
+        return true;
     }
 };
+
+#endif //FINALPROJECT_KDTREE_H
