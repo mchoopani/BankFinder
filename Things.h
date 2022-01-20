@@ -13,7 +13,9 @@ class Point{
 public:
     int x;
     int y;
-
+    bool equals(Point* point){
+        return point->x == x && point->y == y;
+    }
 };
 class Bank{
 public:
