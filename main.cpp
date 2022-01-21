@@ -78,6 +78,22 @@ int main() {
                 cout << "There is a branch of a bank in this point. please build your branch in other place." << endl;
             }
         }
+        else if (command == "listBrs"){
+            string bankName;
+            cin >> bankName;
+            Bank* bank = nullptr;
+            for (int i = 0; i < ctr; ++i) {
+                if (banks[i]->name == bankName){
+                    bank = banks[i];
+                    break;
+                }
+            }
+            if (bank == nullptr){
+                cout << "Bank Not Found." << endl;
+                continue;
+            }
+            bank->branches.traversal();
+        }
 
         else if(command == "exit"){
             break;
