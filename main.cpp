@@ -67,8 +67,8 @@ int main() {
                 continue;
             }
             BankBranch* branch = new BankBranch(x,y);
-            branch->name = "Main Branch";
-            branch->bankName = branchName;
+            branch->name = branchName;
+            branch->bankName = bankName;
             bool result = allBranches.add(branch);
             if (result){
                 bank->branches.add(branch);
@@ -78,8 +78,6 @@ int main() {
                 cout << "There is a branch of a bank in this point. please build your branch in other place." << endl;
             }
         }
-
-
 
         else if(command == "exit"){
             break;
