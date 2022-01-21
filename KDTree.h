@@ -9,6 +9,7 @@
 class Node {
 public:
     BankBranch *branch;
+    Node *father = nullptr;
     Node *left = nullptr;
     Node *right = nullptr;
 
@@ -61,7 +62,9 @@ public:
             }
             isXBase = !isXBase;
         }
-        addToRight ? backupPtr->right = new Node(branch) : backupPtr->left = new Node(branch);
+        Node *newNode = new Node(branch);
+        newNode->father = backupPtr;
+        addToRight ? backupPtr->right = newNode : backupPtr->left = newNode;
         return true;
     }
 };
