@@ -3,9 +3,9 @@
 //
 #ifndef FINALPROJECT_KDTREE_H
 #define FINALPROJECT_KDTREE_H
-
+#include <iostream>
 #include "Things.h"
-
+using namespace std;
 class Node {
 public:
     BankBranch *branch;
@@ -66,6 +66,17 @@ public:
         newNode->father = backupPtr;
         addToRight ? backupPtr->right = newNode : backupPtr->left = newNode;
         return true;
+    }
+    // print in-order traversal
+    void traversal(Node* node){
+        if(node == nullptr)
+            return;
+        traversal(node->left);
+        node->branch->toString();
+        traversal(node->right);
+    }
+    void traversal(){
+        traversal(this->root);
     }
 };
 
