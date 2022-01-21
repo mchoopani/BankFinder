@@ -1,6 +1,62 @@
 #include <iostream>
+#include "KDTree.h"
 
+class Bank{
+public:
+    Point point;
+    string name;
+    KDTree branches;
+    Bank(string name,int x,int y): point(x,y){
+        this->name = name;
+    }
+};
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    KDTree allBranches;
+    // TODO: Change Array TO Hash Table
+    // ----------------------------------
+    int ctr = 0;
+    Bank** banks = new Bank*[1500];
+    while (true){
+        string command;
+        cin >> command;
+        if (command == "addB"){
+            string name;
+            cin >> name;
+            int x,y;
+            cin >>x >> y;
+            // check old banks to avoid duplicate instancing.
+            bool continueOuter = false;
+            // TODO: change array to hash table to decrease time complexity.
+            for (int i = 0; i < ctr; ++i) {
+                if (banks[i]->name == name){
+                    cout << "Bank exists." << endl;
+                    continueOuter = true;
+                    break;
+                }
+            }
+            if (continueOuter)
+                continue;
+            Bank* bank = new Bank(name,x,y);
+            BankBranch* mainBranch = new BankBranch(x,y);
+            mainBranch->name = "Main Branch";
+            mainBranch->bankName = name;
+            bool result = allBranches.add(mainBranch);
+            if (result){
+                bank->branches.add(mainBranch);
+                banks[ctr++] = bank;
+                cout << "Main Branch Of bank " << name << " successfully added." << endl;
+            } else{
+                cout << "There is a branch of a bank in this point. please build your bank in other place." << endl;
+            }
+        }
+
+
+
+
+        else if(command == "exit"){
+            break;
+        }
+    }
+    // ----------------------------------
     return 0;
 }

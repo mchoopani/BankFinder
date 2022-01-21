@@ -20,13 +20,7 @@ public:
         this->y = y;
     }
 };
-// TODO: move Bank class to main file.
-//class Bank{
-//public:
-//    Point point;
-//    string name;
-//    KDTree branches;
-//};
+
 class BankBranch{
 public:
     Point point;
