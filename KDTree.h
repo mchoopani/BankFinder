@@ -67,24 +67,25 @@ public:
         addToRight ? backupPtr->right = newNode : backupPtr->left = newNode;
         return true;
     }
-    Node* findMinimum(Node* node, bool minBaseX,bool isXBase){
-        if(minBaseX == isXBase){
-            if(node -> left != nullptr){
-                return findMinimum(node->left,minBaseX,!isXBase);
-            }else{
+
+    Node *findMinimum(Node *node, bool minBaseX, bool isXBase) {
+        if (minBaseX == isXBase) {
+            if (node->left != nullptr) {
+                return findMinimum(node->left, minBaseX, !isXBase);
+            } else {
                 return node;
             }
-        }else{
-            Node* minInLeft = findMinimum(node->left,minXBase,!isXBase);
-            Node* minInRight = findMinimum(node->right,minXBase,!isXBase);
-            if(isXBase){
+        } else {
+            Node *minInLeft = findMinimum(node->left, minXBase, !isXBase);
+            Node *minInRight = findMinimum(node->right, minXBase, !isXBase);
+            if (isXBase) {
                 Node *res = node;
                 if (minInLeft != nullptr && minInLeft->point.x < res->point.x)
                     res = y;
                 if (minInRight != nullptr && minInRight->point.x < res->point.x)
                     res = z;
                 return res;
-            }else{
+            } else {
                 Node *res = node;
                 if (minInLeft != nullptr && minInLeft->point.y < res->point.y)
                     res = y;
@@ -94,28 +95,58 @@ public:
             }
         }
     }
-    Node* del(Node* node, bool isXBase){
-        if(node->right != nullptr){
 
-        }
-        else if (node->left != nullptr ){
+    void copySecondInFirstNode(Node *first, Node *second) {
+        first->branch = second->branch;
+    }
 
+    Node *del(Node *node, int x, int y, bool isXBase) {
+        if (node->point.x == x, node->point.y == y) {
+            if (node->right != nullptr) {
+                Node *min = findMinimum(node->right, isXBase, !isXBase);
+                copySecondInFirstNode(node, min);
+                node->right = del(node->right, min->point.x, min->point.y, !isXBase);
+            } else if (node->left != nullptr) {
+                Node *min = findMinimum(node->left, isXBase, !isXBase);
+                copySecondInFirstNode(node, min);
+                node->right = del(node->right, min->point.x, min->point.y, !isXBase);
+            } else {
+                delete node;
+                return nullptr;
+            }
+        } else {
+            if(isXBase){
+                if(x < node->point.x){
+                    node->left = del(node->left,x,y,!isXBase);
+                }else{
+                    node->right = del(node->right,x,y,!isXBase);
+                }
+            }
+            else{
+                if(y < node->point.y){
+                    node->left = del(node->left,x,y,!isXBase);
+                }else{
+                    node->right = del(node->right,x,y,!isXBase);
+                }
+            }
         }
-        else {
-
-        }
+        return node;
+    }
+    void del(int x,int y){
+        del(root,x,y,true);
     }
 
 
     // print in-order traversal
-    void traversal(Node* node){
-        if(node == nullptr)
+    void traversal(Node *node) {
+        if (node == nullptr)
             return;
         traversal(node->left);
         node->branch->toString();
         traversal(node->right);
     }
-    void traversal(){
+
+    void traversal() {
         traversal(this->root);
     }
 };
