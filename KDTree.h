@@ -102,10 +102,16 @@ public:
         first->branch = second->branch;
     }
     bool notSeen = true;
+    BankBranch* deletedBranch = nullptr;
     Node *del(Node *node, int x, int y, bool isXBase) {
+        if(node == nullptr)
+            return nullptr;
         if (node->branch->point.x == x, node->branch->point.y == y) {
             if(notSeen && node->branch->name == "Main Branch"){
                 return node;
+            }
+            if(notSeen){
+                deletedBranch = node->branch;
             }
             notSeen = false;
             if (node->right != nullptr) {
@@ -140,9 +146,12 @@ public:
     }
     void del(int x,int y){
         notSeen = true;
-        del(root,x,y,true);
-        if(!notSeen){
+        Node* node = del(root,x,y,true);
+        if(notSeen){
             cout << "Main Branch Of Bank Can't be delete." << endl;
+        }else{
+            cout << "Branch " << deletedBranch->name << " Of Bank " <<
+            deletedBranch->bankName << " deleted." << endl;
         }
         notSeen = true;
     }

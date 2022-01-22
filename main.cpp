@@ -94,6 +94,11 @@ int main() {
             }
             bank->branches.traversal();
         }
+        else if(command == "delBr"){
+            int x,y;
+            cin >> x >> y;
+            allBranches.del(x,y);
+        }
 
         else if(command == "exit"){
             break;
