@@ -78,19 +78,33 @@ public:
             Node* minInLeft = findMinimum(node->left,minXBase,!isXBase);
             Node* minInRight = findMinimum(node->right,minXBase,!isXBase);
             if(isXBase){
-                if(node->point.x < minInLeft->point.x && node->point.x < minInRight->point.x){
-                    return node;
-                }
-                if(minInLeft->point.x <node->point.x && minInLeft->point.x < minInRight->point.x){
-                    return minInLeft;
-                }
-                if(minInRight->point.x <minInLeft->point.x && minInRight->point.x < node->point.x){
-                    return minInRight;
-                }
+                Node *res = node;
+                if (minInLeft != nullptr && minInLeft->point.x < res->point.x)
+                    res = y;
+                if (minInRight != nullptr && minInRight->point.x < res->point.x)
+                    res = z;
+                return res;
+            }else{
+                Node *res = node;
+                if (minInLeft != nullptr && minInLeft->point.y < res->point.y)
+                    res = y;
+                if (minInRight != nullptr && minInRight->point.y < res->point.y)
+                    res = z;
+                return res;
             }
         }
     }
+    Node* del(Node* node, bool isXBase){
+        if(node->right != nullptr){
 
+        }
+        else if (node->left != nullptr ){
+
+        }
+        else {
+
+        }
+    }
 
 
     // print in-order traversal
