@@ -200,20 +200,19 @@ public:
 
         if (isXBase) {
             if (target.x > node->branch->point.x) {
-                next = node->left;
-                other = node->right;
-            } else {
                 next = node->right;
                 other = node->left;
-
+            } else {
+                next = node->left;
+                other = node->right;
             }
         } else {
             if (target.y > node->branch->point.y) {
-                next = node->left;
-                other = node->right;
-            } else {
                 next = node->right;
                 other = node->left;
+            } else {
+                next = node->left;
+                other = node->right;
             }
         }
         Node *temp = nearest(next, target, !isXBase);
