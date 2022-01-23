@@ -105,7 +105,16 @@ int main() {
             Node *near = allBranches.nearest(x, y);
             cout << "the nearest branch is " << near->branch->name << " of bank " << near->branch->bankName
                  << " at dimension " << near->branch->point.x << ", " << near->branch->point.y << endl;
-        } else if (command == "exit") {
+        }
+        else if (command == "nearB"){
+            int x, y;
+            cin >> x >> y;
+            Node *near = mainBranches.nearest(x, y);
+            cout << "the nearest main branch is " << near->branch->name << " of bank " << near->branch->bankName
+                 << " at dimension " << near->branch->point.x << ", " << near->branch->point.y << endl;
+
+        }
+        else if (command == "exit") {
             break;
         }
     }
