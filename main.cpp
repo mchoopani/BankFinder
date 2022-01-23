@@ -100,6 +100,7 @@ int main() {
             cin >> x >> y;
             string deletedBankName = allBranches.del(x, y, true);
             if (deletedBankName != "nullptr"){
+                // ******************************************************
                 Bank *bank = nullptr;
                 for (int i = 0; i < ctr; ++i) {
                     if (banks[i]->name == deletedBankName) {
@@ -107,6 +108,7 @@ int main() {
                         break;
                     }
                 }
+                // ******************************************************
                 bank->branches.del(x,y,false);
             }
         } else if (command == "nearBr") {
@@ -123,6 +125,13 @@ int main() {
             cout << "the nearest main branch is " << near->branch->name << " of bank " << near->branch->bankName
                  << " at dimension " << near->branch->point.x << ", " << near->branch->point.y << endl;
 
+        }
+        else if (command == "area"){
+            // TODO: search name in hash table and find area.
+            int x1, x2;
+            int y1, y2;
+            cin >> x1 >> x2 >> y1 >> y2;
+            allBranches.printNodesInArea(*new Area(x1,x2,y1,y2));
         }
         else if (command == "exit") {
             break;

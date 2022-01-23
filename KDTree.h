@@ -3,7 +3,6 @@
 //
 #ifndef FINALPROJECT_KDTREE_H
 #define FINALPROJECT_KDTREE_H
-// move line7 to last line of code
 
 #include <iostream>
 #include "Things.h"
