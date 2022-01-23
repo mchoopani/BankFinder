@@ -149,15 +149,17 @@ public:
         return node;
     }
 
-    string del(int x, int y) {
+    string del(int x, int y,bool log) {
         notSeen = true;
         Node *node = del(root, x, y, true);
-        str deleted = "nullptr";
+        string deleted = "nullptr";
         if (notSeen) {
-            cout << "Main Branch Of Bank Can't be delete." << endl;
+            if(log)
+                cout << "Main Branch Of Bank Can't be delete." << endl;
         } else {
-            cout << "Branch " << deletedBranch->name << " Of Bank " <<
-                 deletedBranch->bankName << " deleted." << endl;
+            if(log)
+                cout << "Branch " << deletedBranch->name << " Of Bank " <<
+                     deletedBranch->bankName << " deleted." << endl;
             deleted = deletedBranch->bankName;
         }
         notSeen = true;
