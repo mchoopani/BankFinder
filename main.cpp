@@ -14,6 +14,7 @@ public:
 
 int main() {
     KDTree allBranches;
+    KDTree mainBranches;
     // TODO: Change Array TO Hash Table
     // ----------------------------------
     int ctr = 0;
@@ -45,6 +46,7 @@ int main() {
             bool result = allBranches.add(mainBranch);
             if (result) {
                 bank->branches.add(mainBranch);
+                mainBranches.add(mainBranch);
                 banks[ctr++] = bank;
                 cout << "Main Branch Of bank " << name << " successfully added." << endl;
             } else {
