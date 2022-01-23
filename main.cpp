@@ -98,7 +98,17 @@ int main() {
         } else if (command == "delBr") {
             int x, y;
             cin >> x >> y;
-            allBranches.del(x, y);
+            string deletedBankName = allBranches.del(x, y);
+            if (deletedBankName != "nullptr"){
+                Bank *bank = nullptr;
+                for (int i = 0; i < ctr; ++i) {
+                    if (banks[i]->name == deletedBankName) {
+                        bank = banks[i];
+                        break;
+                    }
+                }
+                bank->branches.del(x,y);
+            }
         } else if (command == "nearBr") {
             int x, y;
             cin >> x >> y;
