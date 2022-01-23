@@ -42,5 +42,35 @@ public:
         cout << "+-+-+-+--+-+" << endl;
     }
 };
+class Area {
+public:
+    int x1, x2;
+    int y1, y2;
+    Area(int x1,int x2, int y1, int y2){
+        this-> x1 = x1;
+        this-> x2 = x2;
+        this-> y1 = y1;
+        this-> y2 = y2;
+    }
+    int containsPoint(Point point, bool xBase) {
+        if (xBase) {
+            if (point.x >= x1 && point.x <= x2)
+                return 0;
+            else if (point.x > x2) {
+                return +1;
+            } else if (point.x < x1) {
+                return -1;
+            }
+        } else {
+            if (point.y >= y1 && point.y <= y2)
+                return 0;
+            else if (point.y > y2) {
+                return +1;
+            } else if (point.y < y1) {
+                return -1;
+            }
+        }
 
+    }
+};
 #endif //FINALPROJECT_THINGS_H
