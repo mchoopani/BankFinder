@@ -3,6 +3,7 @@
 //
 #ifndef FINALPROJECT_KDTREE_H
 #define FINALPROJECT_KDTREE_H
+// move line7 to last line of code
 
 #include <iostream>
 #include "Things.h"
@@ -149,15 +150,15 @@ public:
         return node;
     }
 
-    string del(int x, int y,bool log) {
+    string del(int x, int y, bool log) {
         notSeen = true;
-        Node *node = del(root, x, y, true);
+        del(root, x, y, true);
         string deleted = "nullptr";
         if (notSeen) {
-            if(log)
+            if (log)
                 cout << "Main Branch Of Bank Can't be delete." << endl;
         } else {
-            if(log)
+            if (log)
                 cout << "Branch " << deletedBranch->name << " Of Bank " <<
                      deletedBranch->bankName << " deleted." << endl;
             deleted = deletedBranch->bankName;
@@ -222,21 +223,46 @@ public:
         }
         Node *temp = nearest(next, target, !isXBase);
         Node *best = closer(temp, node, target);
-        long distance = isXBase ? target.x-node->branch->point.x : target.y-node->branch->point.y;
+        long distance = isXBase ? target.x - node->branch->point.x : target.y - node->branch->point.y;
         if (
                 (target.x - best->branch->point.x) * (target.x - best->branch->point.x) +
                 (target.y - best->branch->point.y) * (target.y - best->branch->point.y)
                 >
                 distance * distance
-           ){
-            temp = nearest(other,target,!isXBase);
-            return closer(temp,best,target);
+                ) {
+            temp = nearest(other, target, !isXBase);
+            return closer(temp, best, target);
         }
         return best;
     }
 
     Node *nearest(int x, int y) {
-        return nearest(root,*new Point(x,y),true);
+        return nearest(root, *new Point(x, y), true);
+    }
+
+    void printNodesInArea(Node *node, Area area, bool isXBase) {
+        if (node == nullptr)
+            return;
+        int containsResult = area.containsPoint(node->branch->point, isXBase);
+        if (containsResult == 0) {
+            // check both subtrees
+            printNodesInArea(node->right, area, !isXBase);
+            printNodesInArea(node->left, area, !isXBase);
+        } else if (containsResult > 0) {
+            // check only left subtree
+            printNodesInArea(node->left, area, !isXBase);
+        } else {
+            // check only right subtree
+            printNodesInArea(node->right, area, !isXBase);
+        }
+        if (containsResult == 0 && area.containsPoint(node->branch->point, !isXBase) == 0) {
+            cout << "There is branch " << node->branch->name << " Of bank " << node->branch->bankName << " at point "
+                 << node->branch->point.x << " " << node->branch->point.y << endl;
+        }
+    }
+
+    void printNodesInArea(Area area) {
+        printNodesInArea(root, area, true);
     }
 };
 
