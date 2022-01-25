@@ -128,12 +128,18 @@ int main() {
                  << " at dimension " << near->branch->point.x << ", " << near->branch->point.y << endl;
 
         }
-        else if (command == "area"){
+        else if (command == "listB"){
             // TODO: search name in hash table and find area.
-            int x1, x2;
-            int y1, y2;
-            cin >> x1 >> x2 >> y1 >> y2;
-            allBranches.printNodesInArea(*new Area(x1,x2,y1,y2));
+            string name;
+            cin >> name;
+            Area* found = nullptr;
+            for (int i = 0; i < ctrA; ++i) {
+                if (areas[i]->name == name){
+                    found = areas[i];
+                    break;
+                }
+            }
+            allBranches.printNodesInArea(*found);
         }
         else if (command == "availB"){
             int x,y,r;
@@ -146,7 +152,7 @@ int main() {
             cin >> name;
             cin >> x1 >> x2 >> y1 >> y2;
             Area* area = new Area(name,x1,x2,y1,y2);
-            areas[ctr++] = area;
+            areas[ctrA++] = area;
         }
         else if (command == "exit") {
             break;
