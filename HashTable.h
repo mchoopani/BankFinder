@@ -34,7 +34,7 @@ public:
         c -= 'A';
         for (int i = 0; i < 56; ++i) {
             int index = (c % hash() + i) % hash();
-            if (arr[i] == nullptr)
+            if (arr[index] == nullptr)
                 return index;
         }
         return -1;
