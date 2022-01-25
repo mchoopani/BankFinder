@@ -128,19 +128,20 @@ public:
                 copySecondInFirstNode(node, min);
                 // TODO: bug possible
                 node->right = del(node->left, min->branch->point.x, min->branch->point.y, !isXBase);
+                node->left = nullptr;
             } else {
                 delete node;
                 return nullptr;
             }
         } else {
             if (isXBase) {
-                if (x <= node->branch->point.x) {
+                if (x < node->branch->point.x) {
                     node->left = del(node->left, x, y, !isXBase);
                 } else {
                     node->right = del(node->right, x, y, !isXBase);
                 }
             } else {
-                if (y <= node->branch->point.y) {
+                if (y < node->branch->point.y) {
                     node->left = del(node->left, x, y, !isXBase);
                 } else {
                     node->right = del(node->right, x, y, !isXBase);

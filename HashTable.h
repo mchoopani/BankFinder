@@ -6,20 +6,22 @@
 #define FINALPROJECT_HASHTABLE_H
 
 #endif //FINALPROJECT_HASHTABLE_H
-
+#include "Things.h"
 template<class T>
 class HashTable {
-    T **arr = new T[56];
+    T **arr = new T*[58];
 public:
-    bool add(T t) {
+    bool add(T* t) {
         int i = hash(t->name[0]);
         if (i == -1)
             return false;
+        arr[i] = t;
         return true;
     }
-    T get(string name){
-        for (int i = 0; i < 56; ++i) {
-            int index = (name[0] % hash() + i)%hash();
+    T* get(string name){
+        char c = name[0]-'A';
+        for (int i = 0; i < 58; ++i) {
+            int index = (c % hash() + i)%hash();
             if(arr[index] == nullptr)
                 break;
             if(arr[index]->name == name)
@@ -29,6 +31,7 @@ public:
     }
 
     int hash(char c) {
+        c -= 'A';
         for (int i = 0; i < 56; ++i) {
             int index = (c % hash() + i) % hash();
             if (arr[i] == nullptr)
