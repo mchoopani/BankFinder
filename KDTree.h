@@ -3,12 +3,10 @@
 //
 #ifndef FINALPROJECT_KDTREE_H
 #define FINALPROJECT_KDTREE_H
-
 #include <iostream>
 #include "Things.h"
 
 using namespace std;
-
 class Node {
 public:
     BankBranch *branch;
@@ -104,7 +102,7 @@ public:
     void copySecondInFirstNode(Node *first, Node *second) {
         first->branch = second->branch;
     }
-
+    bool toDeleteIsMainBranch = false;
     bool notSeen = true;
     BankBranch *deletedBranch = nullptr;
 
@@ -113,6 +111,7 @@ public:
             return nullptr;
         if (node->branch->point.x == x, node->branch->point.y == y) {
             if (notSeen && node->branch->name == "Main Branch") {
+                toDeleteIsMainBranch = true;
                 return node;
             }
             if (notSeen) {
@@ -151,16 +150,21 @@ public:
 
     string del(int x, int y, bool log) {
         notSeen = true;
+        toDeleteIsMainBranch = false;
         del(root, x, y, true);
         string deleted = "nullptr";
-        if (notSeen) {
+        if (toDeleteIsMainBranch) {
             if (log)
                 cout << "Main Branch Of Bank Can't be delete." << endl;
         } else {
-            if (log)
-                cout << "Branch " << deletedBranch->name << " Of Bank " <<
-                     deletedBranch->bankName << " deleted." << endl;
-            deleted = deletedBranch->bankName;
+            if (!notSeen){
+                if (log)
+                    cout << "Branch " << deletedBranch->name << " Of Bank " <<
+                         deletedBranch->bankName << " deleted." << endl;
+                deleted = deletedBranch->bankName;
+            } else{
+                cout << "There is not any node in this point" << endl;
+            }
         }
         notSeen = true;
         return deleted;
