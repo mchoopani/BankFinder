@@ -133,6 +133,11 @@ int main() {
             cin >> x1 >> x2 >> y1 >> y2;
             allBranches.printNodesInArea(*new Area(x1,x2,y1,y2));
         }
+        else if (command == "availB"){
+            int x,y,r;
+            cin >> x >> y >> r;
+            allBranches.availableNodes(*new Area(x-r,x+r,y-r,y+r),*new Point(x,y),r);
+        }
         else if (command == "exit") {
             break;
         }
