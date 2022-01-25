@@ -50,6 +50,7 @@ public:
 
 class Area {
 public:
+    string name;
     int x1, x2;
     int y1, y2;
 
