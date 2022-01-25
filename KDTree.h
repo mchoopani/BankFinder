@@ -127,7 +127,7 @@ public:
                 Node *min = findMinimum(node->left, isXBase, !isXBase);
                 copySecondInFirstNode(node, min);
                 // TODO: bug possible
-                node->right = del(node->right, min->branch->point.x, min->branch->point.y, !isXBase);
+                node->right = del(node->left, min->branch->point.x, min->branch->point.y, !isXBase);
             } else {
                 delete node;
                 return nullptr;
