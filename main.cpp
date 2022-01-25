@@ -1,6 +1,6 @@
 #include <iostream>
 #include "KDTree.h"
-
+#include "HashTable.h"
 class Bank {
 public:
     Point point;
@@ -15,12 +15,8 @@ public:
 int main() {
     KDTree allBranches;
     KDTree mainBranches;
-    // TODO: Change Array TO Hash Table
-    // ----------------------------------
-    int ctr = 0;
-    int ctrA = 0;
-    Bank **banks = new Bank *[1500];
-    Area **areas = new Area *[1500];
+    HashTable<Area> areas;
+    HashTable<Bank> banks;
     while (true) {
         string command;
         cin >> command;
@@ -31,16 +27,6 @@ int main() {
             cin >> x >> y;
             // check old banks to avoid duplicate instancing.
             bool continueOuter = false;
-            // TODO: change array to hash table to decrease time complexity.
-            for (int i = 0; i < ctr; ++i) {
-                if (banks[i]->name == name) {
-                    cout << "Bank exists." << endl;
-                    continueOuter = true;
-                    break;
-                }
-            }
-            if (continueOuter)
-                continue;
             Bank *bank = new Bank(name, x, y);
             BankBranch *mainBranch = new BankBranch(x, y);
             mainBranch->name = "Main Branch";
@@ -49,7 +35,7 @@ int main() {
             if (result) {
                 bank->branches.add(mainBranch);
                 mainBranches.add(mainBranch);
-                banks[ctr++] = bank;
+                banks.add(bank);
                 cout << "Main Branch Of bank " << name << " successfully added." << endl;
             } else {
                 cout << "There is a branch of a bank in this point. please build your bank in other place." << endl;
@@ -60,13 +46,7 @@ int main() {
             cin >> bankName;
             cin >> branchName;
             cin >> x >> y;
-            Bank *bank = nullptr;
-            for (int i = 0; i < ctr; ++i) {
-                if (banks[i]->name == bankName) {
-                    bank = banks[i];
-                    break;
-                }
-            }
+            Bank *bank = banks.get(bankName);
             if (bank == nullptr) {
                 cout << "Bank Doesn't exist." << endl;
                 continue;
@@ -77,7 +57,6 @@ int main() {
             bool result = allBranches.add(branch);
             if (result) {
                 bank->branches.add(branch);
-                banks[ctr++] = bank;
                 cout << "Branch " << branchName << " Of bank " << bankName << " successfully added." << endl;
             } else {
                 cout << "There is a branch of a bank in this point. please build your branch in other place." << endl;
@@ -85,13 +64,7 @@ int main() {
         } else if (command == "listBrs") {
             string bankName;
             cin >> bankName;
-            Bank *bank = nullptr;
-            for (int i = 0; i < ctr; ++i) {
-                if (banks[i]->name == bankName) {
-                    bank = banks[i];
-                    break;
-                }
-            }
+            Bank *bank = banks.get(bankName);
             if (bank == nullptr) {
                 cout << "Bank Not Found." << endl;
                 continue;
@@ -102,15 +75,7 @@ int main() {
             cin >> x >> y;
             string deletedBankName = allBranches.del(x, y, true);
             if (deletedBankName != "nullptr"){
-                // ******************************************************
-                Bank *bank = nullptr;
-                for (int i = 0; i < ctr; ++i) {
-                    if (banks[i]->name == deletedBankName) {
-                        bank = banks[i];
-                        break;
-                    }
-                }
-                // ******************************************************
+                Bank *bank = banks.get(deletedBankName);
                 bank->branches.del(x,y,false);
             }
         } else if (command == "nearBr") {
@@ -132,13 +97,7 @@ int main() {
             // TODO: search name in hash table and find area.
             string name;
             cin >> name;
-            Area* found = nullptr;
-            for (int i = 0; i < ctrA; ++i) {
-                if (areas[i]->name == name){
-                    found = areas[i];
-                    break;
-                }
-            }
+            Area* found = areas.get(name);
             allBranches.printNodesInArea(*found);
         }
         else if (command == "availB"){
@@ -152,12 +111,11 @@ int main() {
             cin >> name;
             cin >> x1 >> x2 >> y1 >> y2;
             Area* area = new Area(name,x1,x2,y1,y2);
-            areas[ctrA++] = area;
+            areas.add(area);
         }
         else if (command == "exit") {
             break;
         }
     }
-    // ----------------------------------
     return 0;
 }
