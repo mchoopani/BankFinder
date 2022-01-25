@@ -102,6 +102,7 @@ public:
     void copySecondInFirstNode(Node *first, Node *second) {
         first->branch = second->branch;
     }
+
     bool toDeleteIsMainBranch = false;
     bool notSeen = true;
     BankBranch *deletedBranch = nullptr;
@@ -109,7 +110,7 @@ public:
     Node *del(Node *node, int x, int y, bool isXBase) {
         if (node == nullptr)
             return nullptr;
-        if (node->branch->point.x == x, node->branch->point.y == y) {
+        if (node->branch->point.x == x && node->branch->point.y == y) {
             if (notSeen && node->branch->name == "Main Branch") {
                 toDeleteIsMainBranch = true;
                 return node;
@@ -125,6 +126,7 @@ public:
             } else if (node->left != nullptr) {
                 Node *min = findMinimum(node->left, isXBase, !isXBase);
                 copySecondInFirstNode(node, min);
+                // TODO: bug possible
                 node->right = del(node->right, min->branch->point.x, min->branch->point.y, !isXBase);
             } else {
                 delete node;
@@ -157,12 +159,12 @@ public:
             if (log)
                 cout << "Main Branch Of Bank Can't be delete." << endl;
         } else {
-            if (!notSeen){
+            if (!notSeen) {
                 if (log)
                     cout << "Branch " << deletedBranch->name << " Of Bank " <<
                          deletedBranch->bankName << " deleted." << endl;
                 deleted = deletedBranch->bankName;
-            } else{
+            } else {
                 cout << "There is not any node in this point" << endl;
             }
         }
@@ -266,6 +268,32 @@ public:
 
     void printNodesInArea(Area area) {
         printNodesInArea(root, area, true);
+    }
+
+    void availableNodes(Node *node, Area area, Point point, int radius, bool isXBase) {
+        if (node == nullptr)
+            return;
+        int containsResult = area.containsPoint(node->branch->point, isXBase);
+        if (containsResult == 0) {
+            // check both subtrees
+            availableNodes(node->right, area,point,radius, !isXBase);
+            availableNodes(node->left, area,point,radius, !isXBase);
+        } else if (containsResult > 0) {
+            // check only left subtree
+            availableNodes(node->left, area,point,radius, !isXBase);
+        } else {
+            // check only right subtree
+            availableNodes(node->right, area,point,radius, !isXBase);
+        }
+        if (containsResult == 0 && area.containsPoint(node->branch->point, !isXBase) == 0 &&
+            node->branch->point.squearedDistance(point) <= radius * radius) {
+            cout << "In radius of " << radius << " from point " << point.x << ", " << point.y << " there is branch "
+                 << node->branch->name << " Of bank " << node->branch->bankName << " at point "
+                 << node->branch->point.x << " " << node->branch->point.y << endl;
+        }
+    }
+    void availableNodes(Area area, Point point, int radius){
+        availableNodes(root,area,point,radius,true);
     }
 };
 
