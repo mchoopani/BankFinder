@@ -22,6 +22,11 @@ public:
         this->x = x;
         this->y = y;
     }
+
+    long squearedDistance(Point other) {
+        return (this->x - other.x) * (this->x - other.x) +
+               (this->y - other.y) * (this->y - other.y);
+    }
 };
 
 class BankBranch {
@@ -42,26 +47,29 @@ public:
         cout << "+-+-+-+--+-+" << endl;
     }
 };
+
 class Area {
 public:
     int x1, x2;
     int y1, y2;
-    Area(int x1,int x2, int y1, int y2){
+
+    Area(int x1, int x2, int y1, int y2) {
         if (x1 < x2) {
             this->x1 = x1;
             this->x2 = x2;
-        } else{
+        } else {
             this->x1 = x2;
             this->x2 = x1;
         }
-        if (x1 < x2) {
-            this->x1 = y1;
-            this->x2 = y2;
-        } else{
-            this->x1 = y2;
-            this->x2 = y1;
+        if (y1 < y2) {
+            this->y1 = y1;
+            this->y2 = y2;
+        } else {
+            this->y1 = y2;
+            this->y2 = y1;
         }
     }
+
     int containsPoint(Point point, bool xBase) {
         if (xBase) {
             if (point.x >= x1 && point.x <= x2)
