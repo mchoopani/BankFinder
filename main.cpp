@@ -18,7 +18,9 @@ int main() {
     // TODO: Change Array TO Hash Table
     // ----------------------------------
     int ctr = 0;
+    int ctrA = 0;
     Bank **banks = new Bank *[1500];
+    Area **areas = new Area *[1500];
     while (true) {
         string command;
         cin >> command;
@@ -137,6 +139,14 @@ int main() {
             int x,y,r;
             cin >> x >> y >> r;
             allBranches.availableNodes(*new Area(x-r,x+r,y-r,y+r),*new Point(x,y),r);
+        }
+        else if(command == "addN"){
+            string name;
+            int x1,x2,y1,y2;
+            cin >> name;
+            cin >> x1 >> x2 >> y1 >> y2;
+            Area* area = new Area(name,x1,x2,y1,y2);
+            areas[ctr++] = area;
         }
         else if (command == "exit") {
             break;
