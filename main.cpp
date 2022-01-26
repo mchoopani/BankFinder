@@ -6,7 +6,9 @@ public:
     Point point;
     string name;
     KDTree branches;
-
+    int branchesCount(){
+        return branches.size;
+    }
     Bank(string name, int x, int y) : point(x, y) {
         this->name = name;
     }
@@ -26,7 +28,6 @@ int main() {
             int x, y;
             cin >> x >> y;
             // check old banks to avoid duplicate instancing.
-            bool continueOuter = false;
             Bank *bank = new Bank(name, x, y);
             BankBranch *mainBranch = new BankBranch(x, y);
             mainBranch->name = "Main Branch";
@@ -94,7 +95,6 @@ int main() {
 
         }
         else if (command == "listB"){
-            // TODO: search name in hash table and find area.
             string name;
             cin >> name;
             Area* found = areas.get(name);

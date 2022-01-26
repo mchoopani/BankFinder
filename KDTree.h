@@ -24,9 +24,11 @@ class KDTree {
 private:
     Node *root = nullptr;
 public:
+    int size = 0;
     bool add(BankBranch *branch) {
         if (root == nullptr) {
             root = new Node(branch);
+            size++;
             return true;
         }
         bool isXBase = true;
@@ -66,6 +68,7 @@ public:
         Node *newNode = new Node(branch);
         newNode->father = backupPtr;
         addToRight ? backupPtr->right = newNode : backupPtr->left = newNode;
+        size++;
         return true;
     }
 
