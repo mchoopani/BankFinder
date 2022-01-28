@@ -113,13 +113,15 @@ public:
     bool notSeen = true;
     BankBranch *deletedBranch = nullptr;
 
-    Node *del(Node *node, int x, int y, bool isXBase) {
+    Node *del(Node *node, int x, int y, bool isXBase, bool force = false) {
         if (node == nullptr)
             return nullptr;
         if (node->branch->point.x == x && node->branch->point.y == y) {
-            if (notSeen && node->branch->name == "Main Branch") {
-                toDeleteIsMainBranch = true;
-                return node;
+            if(!force) {
+                if (notSeen && node->branch->name == "Main Branch") {
+                    toDeleteIsMainBranch = true;
+                    return node;
+                }
             }
             if (notSeen) {
                 deletedBranch = node->branch;
@@ -157,10 +159,10 @@ public:
         return node;
     }
 
-    BankBranch *del(int x, int y, bool log) {
+    BankBranch *del(int x, int y, bool log, bool force = false) {
         notSeen = true;
         toDeleteIsMainBranch = false;
-        del(root, x, y, true);
+        del(root, x, y, true,force);
         BankBranch *deleted = nullptr;
         if (toDeleteIsMainBranch) {
             if (log)
