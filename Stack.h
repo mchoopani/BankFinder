@@ -6,6 +6,25 @@
 #define FINALPROJECT_STACK_H
 
 #endif //FINALPROJECT_STACK_H
+#include <string>
+#include "KDTree.h"
+class Command {
+    static KDTree kdTree;
+    string type;
+    Area* area = nullptr;
+    BankBranch* bankBranch = nullptr;
+    void set(string type,Area* area){
+        this->type = type;
+        this->area = area;
+    }
+    void set(string type, BankBranch* branch){
+        this->type = type;
+        this->bankBranch = branch;
+    }
+
+
+};
+
 class Stack {
 public:
     char *arr = new char[10];
