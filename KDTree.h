@@ -3,10 +3,12 @@
 //
 #ifndef FINALPROJECT_KDTREE_H
 #define FINALPROJECT_KDTREE_H
+
 #include <iostream>
 #include "Things.h"
 
 using namespace std;
+
 class Node {
 public:
     BankBranch *branch;
@@ -25,6 +27,7 @@ private:
     Node *root = nullptr;
 public:
     int size = 0;
+
     bool add(BankBranch *branch) {
         if (root == nullptr) {
             root = new Node(branch);
@@ -154,11 +157,11 @@ public:
         return node;
     }
 
-    string del(int x, int y, bool log) {
+    BankBranch *del(int x, int y, bool log) {
         notSeen = true;
         toDeleteIsMainBranch = false;
         del(root, x, y, true);
-        string deleted = "nullptr";
+        BankBranch *deleted = nullptr;
         if (toDeleteIsMainBranch) {
             if (log)
                 cout << "Main Branch Of Bank Can't be delete." << endl;
@@ -167,7 +170,7 @@ public:
                 if (log)
                     cout << "Branch " << deletedBranch->name << " Of Bank " <<
                          deletedBranch->bankName << " deleted." << endl;
-                deleted = deletedBranch->bankName;
+                deleted = deletedBranch;
             } else {
                 cout << "There is not any node in this point" << endl;
             }
@@ -280,14 +283,14 @@ public:
         int containsResult = area.containsPoint(node->branch->point, isXBase);
         if (containsResult == 0) {
             // check both subtrees
-            availableNodes(node->right, area,point,radius, !isXBase);
-            availableNodes(node->left, area,point,radius, !isXBase);
+            availableNodes(node->right, area, point, radius, !isXBase);
+            availableNodes(node->left, area, point, radius, !isXBase);
         } else if (containsResult > 0) {
             // check only left subtree
-            availableNodes(node->left, area,point,radius, !isXBase);
+            availableNodes(node->left, area, point, radius, !isXBase);
         } else {
             // check only right subtree
-            availableNodes(node->right, area,point,radius, !isXBase);
+            availableNodes(node->right, area, point, radius, !isXBase);
         }
         if (containsResult == 0 && area.containsPoint(node->branch->point, !isXBase) == 0 &&
             node->branch->point.squearedDistance(point) <= radius * radius) {
@@ -296,8 +299,9 @@ public:
                  << node->branch->point.x << " " << node->branch->point.y << endl;
         }
     }
-    void availableNodes(Area area, Point point, int radius){
-        availableNodes(root,area,point,radius,true);
+
+    void availableNodes(Area area, Point point, int radius) {
+        availableNodes(root, area, point, radius, true);
     }
 };
 

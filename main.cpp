@@ -1,28 +1,15 @@
 #include <iostream>
 #include "KDTree.h"
 #include "HashTable.h"
-
-class Bank {
-public:
-    Point point;
-    string name;
-    KDTree branches;
-
-    int branchesCount() {
-        return branches.size;
-    }
-
-    Bank(string name, int x, int y) : point(x, y) {
-        this->name = name;
-    }
-};
-
+#include "Stack.h"
+// MOVED BANK CLASS TO STACK.h
 int main() {
     KDTree allBranches;
     KDTree mainBranches;
     HashTable<Area> areas;
     HashTable<Bank> banks;
     Bank *mostBranches = nullptr;
+    Stack commands;
     while (true) {
         string command;
         cin >> command;
@@ -41,6 +28,7 @@ int main() {
                 bank->branches.add(mainBranch);
                 mainBranches.add(mainBranch);
                 banks.add(bank);
+                commands.push(new Command(allBranches,banks,command,mainBranch,bank));
                 if (mostBranches == nullptr) {
                     mostBranches = bank;
                 }
@@ -65,6 +53,7 @@ int main() {
             bool result = allBranches.add(branch);
             if (result) {
                 bank->branches.add(branch);
+                commands.push(new Command(allBranches,"addBr",branch, bank ));
                 if (bank->branchesCount() > mostBranches->branchesCount()) {
                     mostBranches = bank;
                 }
@@ -84,10 +73,11 @@ int main() {
         } else if (command == "delBr") {
             int x, y;
             cin >> x >> y;
-            string deletedBankName = allBranches.del(x, y, true);
-            if (deletedBankName != "nullptr") {
-                Bank *bank = banks.get(deletedBankName);
+            BankBranch* deletedBranch = allBranches.del(x, y, true);
+            if (deletedBranch != nullptr) {
+                Bank *bank = banks.get(deletedBranch->bankName);
                 bank->branches.del(x, y, false);
+                commands.push(new Command(allBranches,command,deletedBranch,bank));
             }
         } else if (command == "nearBr") {
             int x, y;
@@ -119,6 +109,7 @@ int main() {
             cin >> x1 >> x2 >> y1 >> y2;
             Area *area = new Area(name, x1, x2, y1, y2);
             areas.add(area);
+            commands.push(new Command(areas,"addN",area));
         } else if (command == "mostBrs") {
             cout << "The Most Branches Bank Is: " << mostBranches->name << " With " << mostBranches->branchesCount()
                  << " Branches.";
