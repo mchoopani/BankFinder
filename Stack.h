@@ -27,14 +27,14 @@ class Command {
 
 class Stack {
 public:
-    char *arr = new char[10];
+    Command **arr = new Command*[10];
     int capacity = 10;
     int size = 0;
 
-    void push(char number) {
+    void push(Command* number) {
         if (size == capacity) {
             capacity *= 2;
-            char *newArr = new char[capacity];
+            Command** newArr = new Command*[capacity];
             for (int i = 0; i < size; ++i) {
                 newArr[i] = arr[i];
             }
@@ -44,16 +44,16 @@ public:
         arr[size++] = number;
     }
 
-    char pop() {
+    Command* pop() {
         if (size != 0) {
             return arr[--size];
         }
     }
 
-    char peek() {
+    Command* peek() {
         if (size != 0)
             return arr[size - 1];
-        return ' ';
+        return nullptr;
     }
 
 };
