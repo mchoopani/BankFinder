@@ -8,18 +8,46 @@
 #endif //FINALPROJECT_STACK_H
 #include <string>
 #include "KDTree.h"
+class Bank {
+public:
+    Point point;
+    string name;
+    KDTree branches;
+
+    int branchesCount() {
+        return branches.size;
+    }
+
+    Bank(string name, int x, int y) : point(x, y) {
+        this->name = name;
+    }
+};
 class Command {
-    static KDTree kdTree;
     string type;
     Area* area = nullptr;
     BankBranch* bankBranch = nullptr;
-    void set(string type,Area* area){
+    Bank* bank = nullptr;
+    KDTree kdTree;
+    HashTable<Bank> banks;
+    HashTable<Area> areas;
+public:
+    Command(HashTable<Area> areas, string type,Area* area){
+        this->areas = areas;
         this->type = type;
         this->area = area;
     }
-    void set(string type, BankBranch* branch){
+    Command(KDTree all,string type, BankBranch* branch, Bank* bank){
+        this->kdTree = all;
         this->type = type;
         this->bankBranch = branch;
+        this->bank = bank;
+    }
+    Command(KDTree all,HashTable<Bank> banks,string type, BankBranch* branch, Bank* bank){
+        this->kdTree = all;
+        this->banks = banks;
+        this->type = type;
+        this->bankBranch = branch;
+        this->bank = bank;
     }
 
 
