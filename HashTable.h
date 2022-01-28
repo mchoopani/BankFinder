@@ -42,11 +42,12 @@ public:
     int hash(){
         return ('z' - 'A' + 1);
     }
+
     void del(string name){
         char c = name[0]-'A';
         int index = -1;
         for (int i = 0; i < 58; ++i) {
-            int index = (c % hash() + i)%hash();
+            index = (c % hash() + i)%hash();
             if(arr[index] == nullptr)
                 continue;
             if(arr[index]->name == name)
