@@ -42,4 +42,14 @@ public:
     int hash(){
         return ('z' - 'A' + 1);
     }
+    void del(char c){
+        c -= 'A';
+        int index = -1;
+        for (int i = 0; i < 56; ++i) {
+            index = (c % hash() + i) % hash();
+            if (arr[index] == nullptr)
+                break;
+        }
+        arr[index] = nullptr;
+    }
 };
