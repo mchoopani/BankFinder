@@ -23,7 +23,7 @@ public:
         for (int i = 0; i < 58; ++i) {
             int index = (c % hash() + i)%hash();
             if(arr[index] == nullptr)
-                break;
+                continue;
             if(arr[index]->name == name)
                 return arr[index];
         }
