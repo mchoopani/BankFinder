@@ -32,7 +32,7 @@ public:
 
     int hash(char c) {
         c -= 'A';
-        for (int i = 0; i < 56; ++i) {
+        for (int i = 0; i < 58; ++i) {
             int index = (c % hash() + i) % hash();
             if (arr[index] == nullptr)
                 return index;
@@ -42,12 +42,14 @@ public:
     int hash(){
         return ('z' - 'A' + 1);
     }
-    void del(char c){
-        c -= 'A';
+    void del(string name){
+        char c = name[0]-'A';
         int index = -1;
-        for (int i = 0; i < 56; ++i) {
-            index = (c % hash() + i) % hash();
-            if (arr[index] == nullptr)
+        for (int i = 0; i < 58; ++i) {
+            int index = (c % hash() + i)%hash();
+            if(arr[index] == nullptr)
+                continue;
+            if(arr[index]->name == name)
                 break;
         }
         arr[index] = nullptr;
