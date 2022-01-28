@@ -113,7 +113,15 @@ int main() {
         } else if (command == "mostBrs") {
             cout << "The Most Branches Bank Is: " << mostBranches->name << " With " << mostBranches->branchesCount()
                  << " Branches.";
-        } else if (command == "exit") {
+        } else if (command == "undo"){
+            int p;
+            cin >> p;
+            int stackSize = commands.size;
+            for (int i = 0; i < stackSize-p; ++i) {
+                commands.pop()->reverseBack();
+            }
+        }
+        else if (command == "exit") {
             break;
         }
     }
