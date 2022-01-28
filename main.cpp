@@ -65,8 +65,8 @@ int main() {
             string bankName;
             cin >> bankName;
             Bank *bank = banks.get(bankName);
-            if (bank == nullptr) {
-                cout << "Bank Not Found." << endl;
+            if (bank == nullptr){
+                cout << bankName << " Not Found." << endl;
                 continue;
             }
             bank->branches.traversal();
@@ -96,6 +96,9 @@ int main() {
             string name;
             cin >> name;
             Area *found = areas.get(name);
+            if (found == nullptr){
+                cout << name << " Not exist." << endl;
+            }
             allBranches.printNodesInArea(*found);
         } else if (command == "availB") {
             int x, y, r;
