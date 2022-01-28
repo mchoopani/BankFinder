@@ -50,7 +50,24 @@ public:
         this->bank = bank;
     }
 
-
+    void reverseBack(){
+        if (type == "addB"){
+            kdTree.del(bankBranch->point.x,bankBranch->point.y, false, true);
+            bank->branches.del(bankBranch->point.x,bankBranch->point.y, false, true);
+            banks.del(bank->name);
+        }
+        if (type == "addBr"){
+            kdTree.del(bankBranch->point.x,bankBranch->point.y, false, true);
+            bank->branches.del(bankBranch->point.x,bankBranch->point.y, false, true);
+        }
+        else if (type == "addN"){
+            areas.del(area->name);
+        }
+        else if (type == "delBr"){
+            kdTree.add(bankBranch);
+            bank->branches.add(bankBranch);
+        }
+    }
 };
 
 class Stack {
