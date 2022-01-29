@@ -134,7 +134,6 @@ public:
             } else if (node->left != nullptr) {
                 Node *min = findMinimum(node->left, isXBase, !isXBase);
                 copySecondInFirstNode(node, min);
-                // TODO: bug possible
                 node->right = del(node->left, min->branch->point.x, min->branch->point.y, !isXBase);
                 node->left = nullptr;
             } else {
