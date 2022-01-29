@@ -7,10 +7,8 @@
 int main() {
     KDTree allBranches;
     KDTree mainBranches;
-//    HashTable<Area> areas;
     TrieTree<Area> areas;
     TrieTree<Bank> banks;
-//    HashTable<Bank> banks;
     Bank *mostBranches = nullptr;
     Stack commands;
     while (true) {
@@ -30,13 +28,13 @@ int main() {
             if (result) {
                 bank->branches.add(mainBranch);
                 mainBranches.add(mainBranch);
-//                banks.add(bank);
                 banks.insert(bank);
                 commands.push(new Command(allBranches,banks,command,mainBranch,bank));
                 if (mostBranches == nullptr) {
                     mostBranches = bank;
                 }
                 cout << "Main Branch Of bank " << name << " successfully added." << endl;
+                cout << "This is " << commands.size <<"'th undoable command." << endl;
             } else {
                 cout << "There is a branch of a bank in this point. please build your bank in other place." << endl;
             }
@@ -62,6 +60,7 @@ int main() {
                     mostBranches = bank;
                 }
                 cout << "Branch " << branchName << " Of bank " << bankName << " successfully added." << endl;
+                cout << "This is " << commands.size <<"'th undoable command." << endl;
             } else {
                 cout << "There is a branch of a bank in this point. please build your branch in other place." << endl;
             }
@@ -82,6 +81,7 @@ int main() {
                 Bank *bank = banks.get(deletedBranch->bankName);
                 bank->branches.del(x, y, false);
                 commands.push(new Command(allBranches,command,deletedBranch,bank));
+                cout << "This is " << commands.size <<"'th undoable command." << endl;
             }
         } else if (command == "nearBr") {
             int x, y;
@@ -118,9 +118,11 @@ int main() {
             Area *area = new Area(name, x1, x2, y1, y2);
             areas.insert(area);
             commands.push(new Command(areas,"addN",area));
+            cout << name << " Area Added." << endl;
+            cout << "This is " << commands.size <<"'th undoable command." << endl;
         } else if (command == "mostBrs") {
             cout << "The Most Branches Bank Is: " << mostBranches->name << " With " << mostBranches->branchesCount()
-                 << " Branches.";
+                 << " Branches." << endl;
         } else if (command == "undo"){
             int p;
             cin >> p;
