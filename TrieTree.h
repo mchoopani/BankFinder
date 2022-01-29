@@ -17,11 +17,9 @@ class TrieTree{
         T* data = nullptr;
 
     };
-    TrieNode* root = nullptr;
+    TrieNode* root = new TrieNode;
 public:
     void insert(T* newData){
-        if (root == nullptr)
-            root = new TrieNode;
         TrieNode* cursor = root;
         for (int i = 0; i < newData->name.size(); ++i) {
             int index = newData->name[i] - 'A';
@@ -62,6 +60,8 @@ public:
         if (hasData && node->nodes[name[depth]-'A'] == nullptr){
             node->childrenCount--;
         }
+        if (node == root)
+            return node;
         if (node->childrenCount==0 && !node->isEndOfWord){
             delete node;
             return nullptr;
