@@ -9,8 +9,8 @@
 #include "Things.h"
 template<class T>
 class HashTable {
-    T **arr = new T*[58];
 public:
+    T **arr = new T*[58];
     bool add(T* t) {
         int i = hash(t->name[0]);
         if (i == -1)

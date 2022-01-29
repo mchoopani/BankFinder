@@ -173,6 +173,7 @@ public:
                     cout << "Branch " << deletedBranch->name << " Of Bank " <<
                          deletedBranch->bankName << " deleted." << endl;
                 deleted = deletedBranch;
+                size--;
             } else {
                 cout << "There is not any node in this point" << endl;
             }

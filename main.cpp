@@ -9,6 +9,7 @@ int main() {
     KDTree mainBranches;
     TrieTree<Area> areas;
     TrieTree<Bank> banks;
+    HashTable<Bank> banksForMostBrs;
     Bank *mostBranches = nullptr;
     Stack commands;
     while (true) {
@@ -29,7 +30,8 @@ int main() {
                 bank->branches.add(mainBranch);
                 mainBranches.add(mainBranch);
                 banks.insert(bank);
-                commands.push(new Command(allBranches,banks,command,mainBranch,bank));
+                commands.push(new Command(allBranches,banks,command,banksForMostBrs,mainBranch,bank));
+                banksForMostBrs.add(bank);
                 if (mostBranches == nullptr) {
                     mostBranches = bank;
                 }
@@ -82,6 +84,19 @@ int main() {
                 bank->branches.del(x, y, false);
                 commands.push(new Command(allBranches,command,deletedBranch,bank));
                 cout << "This is " << commands.size <<"'th undoable command." << endl;
+                if (deletedBranch->bankName == mostBranches->name){
+                    mostBranches = nullptr;
+                    for (int i = 0; i < 58; ++i) {
+                        if(banksForMostBrs.arr[i] == nullptr)
+                            continue;
+                        if (mostBranches == nullptr)
+                            mostBranches = banksForMostBrs.arr[i];
+                        else{
+                            if (banksForMostBrs.arr[i]->branchesCount() > mostBranches->branchesCount())
+                                mostBranches = banksForMostBrs.arr[i];
+                        }
+                    }
+                }
             }
         } else if (command == "nearBr") {
             int x, y;

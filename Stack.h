@@ -6,9 +6,11 @@
 #define FINALPROJECT_STACK_H
 
 #endif //FINALPROJECT_STACK_H
+
 #include <string>
 #include "KDTree.h"
 #include "TrieTree.h"
+
 class Bank {
 public:
     Point point;
@@ -23,48 +25,52 @@ public:
         this->name = name;
     }
 };
+
 class Command {
     string type;
-    Area* area = nullptr;
-    BankBranch* bankBranch = nullptr;
-    Bank* bank = nullptr;
+    Area *area = nullptr;
+    BankBranch *bankBranch = nullptr;
+    Bank *bank = nullptr;
     KDTree kdTree;
     TrieTree<Bank> banks;
     TrieTree<Area> areas;
+    HashTable<Bank> banksForMostBr;
 public:
-    Command(TrieTree<Area> areas, string type,Area* area){
+    Command(TrieTree<Area> areas, string type, Area *area) {
         this->areas = areas;
         this->type = type;
         this->area = area;
     }
-    Command(KDTree all,string type, BankBranch* branch, Bank* bank){
+
+    Command(KDTree all, string type, BankBranch *branch, Bank *bank) {
         this->kdTree = all;
-        this->type = type;
-        this->bankBranch = branch;
-        this->bank = bank;
-    }
-    Command(KDTree all,TrieTree<Bank> banks,string type, BankBranch* branch, Bank* bank){
-        this->kdTree = all;
-        this->banks = banks;
         this->type = type;
         this->bankBranch = branch;
         this->bank = bank;
     }
 
-    void reverseBack(){
-        if (type == "addB"){
-            kdTree.del(bankBranch->point.x,bankBranch->point.y, false, true);
-            bank->branches.del(bankBranch->point.x,bankBranch->point.y, false, true);
+    Command(KDTree all, TrieTree<Bank> banks, string type, HashTable<Bank> banksH, BankBranch *branch, Bank *bank) {
+        this->kdTree = all;
+        this->banks = banks;
+        this->type = type;
+        this->bankBranch = branch;
+        this->bank = bank;
+        this->banksForMostBr = banksH;
+    }
+
+    void reverseBack() {
+        if (type == "addB") {
+            kdTree.del(bankBranch->point.x, bankBranch->point.y, false, true);
+            bank->branches.del(bankBranch->point.x, bankBranch->point.y, false, true);
             banks.remove(bank->name);
+            banksForMostBr.del(bank->name);
         }
-        if (type == "addBr"){
-            kdTree.del(bankBranch->point.x,bankBranch->point.y, false, true);
-            bank->branches.del(bankBranch->point.x,bankBranch->point.y, false, true);
-        }
-        else if (type == "addN"){
+        if (type == "addBr") {
+            kdTree.del(bankBranch->point.x, bankBranch->point.y, false, true);
+            bank->branches.del(bankBranch->point.x, bankBranch->point.y, false, true);
+        } else if (type == "addN") {
             areas.remove(area->name);
-        }
-        else if (type == "delBr"){
+        } else if (type == "delBr") {
             kdTree.add(bankBranch);
             bank->branches.add(bankBranch);
         }
@@ -73,14 +79,14 @@ public:
 
 class Stack {
 public:
-    Command **arr = new Command*[10];
+    Command **arr = new Command *[10];
     int capacity = 10;
     int size = 0;
 
-    void push(Command* number) {
+    void push(Command *number) {
         if (size == capacity) {
             capacity *= 2;
-            Command** newArr = new Command*[capacity];
+            Command **newArr = new Command *[capacity];
             for (int i = 0; i < size; ++i) {
                 newArr[i] = arr[i];
             }
@@ -90,13 +96,13 @@ public:
         arr[size++] = number;
     }
 
-    Command* pop() {
+    Command *pop() {
         if (size != 0) {
             return arr[--size];
         }
     }
 
-    Command* peek() {
+    Command *peek() {
         if (size != 0)
             return arr[size - 1];
         return nullptr;
