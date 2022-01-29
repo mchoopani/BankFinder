@@ -2,12 +2,15 @@
 #include "KDTree.h"
 #include "HashTable.h"
 #include "Stack.h"
+//#include "TrieTree.h"
 // MOVED BANK CLASS TO STACK.h
 int main() {
     KDTree allBranches;
     KDTree mainBranches;
-    HashTable<Area> areas;
-    HashTable<Bank> banks;
+//    HashTable<Area> areas;
+    TrieTree<Area> areas;
+    TrieTree<Bank> banks;
+//    HashTable<Bank> banks;
     Bank *mostBranches = nullptr;
     Stack commands;
     while (true) {
@@ -27,7 +30,8 @@ int main() {
             if (result) {
                 bank->branches.add(mainBranch);
                 mainBranches.add(mainBranch);
-                banks.add(bank);
+//                banks.add(bank);
+                banks.insert(bank);
                 commands.push(new Command(allBranches,banks,command,mainBranch,bank));
                 if (mostBranches == nullptr) {
                     mostBranches = bank;
@@ -98,6 +102,7 @@ int main() {
             Area *found = areas.get(name);
             if (found == nullptr){
                 cout << name << " Not exist." << endl;
+                continue;
             }
             allBranches.printNodesInArea(*found);
         } else if (command == "availB") {
@@ -111,7 +116,7 @@ int main() {
             cin >> name;
             cin >> x1 >> x2 >> y1 >> y2;
             Area *area = new Area(name, x1, x2, y1, y2);
-            areas.add(area);
+            areas.insert(area);
             commands.push(new Command(areas,"addN",area));
         } else if (command == "mostBrs") {
             cout << "The Most Branches Bank Is: " << mostBranches->name << " With " << mostBranches->branchesCount()

@@ -8,6 +8,7 @@
 #endif //FINALPROJECT_STACK_H
 #include <string>
 #include "KDTree.h"
+#include "TrieTree.h"
 class Bank {
 public:
     Point point;
@@ -28,10 +29,10 @@ class Command {
     BankBranch* bankBranch = nullptr;
     Bank* bank = nullptr;
     KDTree kdTree;
-    HashTable<Bank> banks;
-    HashTable<Area> areas;
+    TrieTree<Bank> banks;
+    TrieTree<Area> areas;
 public:
-    Command(HashTable<Area> areas, string type,Area* area){
+    Command(TrieTree<Area> areas, string type,Area* area){
         this->areas = areas;
         this->type = type;
         this->area = area;
@@ -42,7 +43,7 @@ public:
         this->bankBranch = branch;
         this->bank = bank;
     }
-    Command(KDTree all,HashTable<Bank> banks,string type, BankBranch* branch, Bank* bank){
+    Command(KDTree all,TrieTree<Bank> banks,string type, BankBranch* branch, Bank* bank){
         this->kdTree = all;
         this->banks = banks;
         this->type = type;
@@ -54,14 +55,14 @@ public:
         if (type == "addB"){
             kdTree.del(bankBranch->point.x,bankBranch->point.y, false, true);
             bank->branches.del(bankBranch->point.x,bankBranch->point.y, false, true);
-            banks.del(bank->name);
+            banks.remove(bank->name);
         }
         if (type == "addBr"){
             kdTree.del(bankBranch->point.x,bankBranch->point.y, false, true);
             bank->branches.del(bankBranch->point.x,bankBranch->point.y, false, true);
         }
         else if (type == "addN"){
-            areas.del(area->name);
+            areas.remove(area->name);
         }
         else if (type == "delBr"){
             kdTree.add(bankBranch);
