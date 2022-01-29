@@ -12,6 +12,23 @@ int main() {
     HashTable<Bank> banksForMostBrs;
     Bank *mostBranches = nullptr;
     Stack commands;
+    string menu = "+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*\n"
+                  "CHEAT SHEET: all numbers should be integer!\n"
+                  "add bank -> addB BankName X Y\n"
+                  "add branch -> addBr BankName BranchName X Y\n"
+                  "list all branch of a bank -> listBrs BankName\n"
+                  "add a rectangle area -> addN AreaName Vertical_Side_X1 Vertical_Side_X2 Horizontal_Side_Y1 Horizontal_Side_Y2\n"
+                  "list all branches in rectangle area -> istB AreaName\n"
+                  "delete a no-main branch -> delBr X Y\n"
+                  "get nearest main branch -> nearB X Y\n"
+                  "get nearest no-main branch -> nearBr X Y\n"
+                  "get all branches in radius R of X, Y -> availB X Y Radius\n"
+                  "get bank that has most branches -> mostBrs\n"
+                  "undo commands to p'th undoable command -> undo P\n"
+                  "show this help -> help\n"
+                  "close app -> exit\n"
+                  "+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*\n";
+    cout << menu;
     while (true) {
         string command;
         cin >> command;
@@ -145,6 +162,8 @@ int main() {
             for (int i = 0; i < stackSize-p; ++i) {
                 commands.pop()->reverseBack();
             }
+        } else if (command == "help"){
+            cout << menu;
         }
         else if (command == "exit") {
             break;
