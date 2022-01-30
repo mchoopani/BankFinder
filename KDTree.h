@@ -159,6 +159,13 @@ public:
     }
 
     BankBranch *del(int x, int y, bool log, bool force = false) {
+        if(force){
+            if(size == 1){
+                root = nullptr;
+                size = 0;
+                return nullptr;
+            }
+        }
         notSeen = true;
         toDeleteIsMainBranch = false;
         del(root, x, y, true,force);
